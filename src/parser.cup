@@ -1,0 +1,55 @@
+import java_cup.runtime.*;
+import java.util.List;
+import java.util.Stack;
+import java.util.HashMap;
+import java.util.Scanner;
+
+init with {:             :};
+scan with {:return getScanner().next_token(); :};
+parser code{:
+    HashMap<String, Object> variables = new HashMap<String, Object>();
+    Stack<Boolean> stack = new Stack<Boolean>();
+:}
+
+terminal String     STRING, ID, OPERATOR, TYPE;
+terminal Integer    NUMBER;
+terminal Float      FLOAT;
+terminal Boolean    BOOLEAN;
+terminal            READ_CALL, WRITE_CALL, IF, THEN, EQUALS, END, OPAR, CPAR;
+
+non terminal        expr_list, expr, control, assignation, write, operation, value, condition, if_statment, else_statement;
+precedence left IF, THEN, END;
+precedence left READ_CALL, WRITE_CALL;
+precedence left READ_CALL, NUMBER, FLOAT, STRING, BOOLEAN, ID, OPERATOR, EQUALS;
+
+
+expr_list ::= expr | expr_list expr;
+
+expr ::= control | assignation | write;
+
+write ::= WRITE_CALL OPAR value:v CPAR
+{: if(stack.isEmpty() || stack.peek()){System.out.println(v);}:};
+
+control ::= IF condition THEN expr_list END {:if(!stack.isEmpty())stack.pop();:};
+
+assignation ::= ID:id EQUALS value:value
+{: if(stack.isEmpty() || stack.peek()) variables.put(id, value);:};
+
+operation ::= value:v1 OPERATOR:o value:v2
+{: RESULT = Utils.operate(v1, o, v2);:};
+
+value ::= OPAR value:value OPAR {:RESULT = value;:} |
+          OPAR operation:value CPAR{:RESULT = value;:} |
+          operation: v {:RESULT = v;:} |
+          ID:id{:Object value = variables.get(id);if (value != null){RESULT = value;}else {throw new SyntaxError("Variable:" + id + " was not declared in this scope");}:}|
+          NUMBER:value {: RESULT = value;:} |
+          STRING:value {:RESULT = value;:}|
+          FLOAT:value {:RESULT = value;:} |
+          BOOLEAN:value{:RESULT = value;:}|
+          READ_CALL OPAR TYPE:t CPAR {:RESULT = Utils.parseRead(t);:};
+
+condition ::= value: v
+              {:if (!(v instanceof Boolean)){throw new SyntaxError("got: " + v.getClass() + ", expected: Boolean");}if(stack.isEmpty() || stack.peek())stack.push((Boolean)v);:} |
+
+              condition:c1 OPERATOR:o condition:c2
+              {:if(stack.isEmpty() || stack.peek()) stack.push((Boolean) Utils.operate(c1, o, c2));:};

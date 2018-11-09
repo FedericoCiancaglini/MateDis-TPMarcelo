@@ -1,0 +1,18 @@
+a = 3
+if a == 2 then b = 5 end
+write("write()")
+write(a)
+c = 10
+if true then write("era true") end
+
+if true then
+    if true then
+        write("sasa")
+    end
+    if true then
+        write("los tabs no fallan")
+    end
+    if c > 5 then
+        write(c)
+    end
+end
