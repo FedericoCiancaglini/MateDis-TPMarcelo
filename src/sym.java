@@ -6,26 +6,34 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int NUMBER = 10;
-  public static final int BOOLEAN = 16;
-  public static final int WRITE_CALL = 3;
-  public static final int THEN = 5;
-  public static final int STRING = 11;
+  public static final int THEN = 12;
+  public static final int END = 14;
+  public static final int IF = 11;
+  public static final int ID = 3;
+  public static final int OPAR = 15;
+  public static final int OPERATOR = 4;
+  public static final int BOOLEAN = 8;
+  public static final int EQUALS = 13;
+  public static final int TYPE = 5;
+  public static final int STRING = 2;
+  public static final int FLOAT = 7;
   public static final int EOF = 0;
-  public static final int OPERATOR = 13;
-  public static final int IF = 4;
-  public static final int TYPE = 14;
-  public static final int OPAR = 8;
-  public static final int ID = 12;
+  public static final int NUMBER = 6;
+  public static final int CPAR = 16;
+  public static final int COMMENT = 17;
+  public static final int READ_CALL = 9;
+  public static final int WRITE_CALL = 10;
   public static final int error = 1;
-  public static final int CPAR = 9;
-  public static final int READ_CALL = 2;
-  public static final int EQUALS = 6;
-  public static final int END = 7;
-  public static final int FLOAT = 15;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "STRING",
+  "ID",
+  "OPERATOR",
+  "TYPE",
+  "NUMBER",
+  "FLOAT",
+  "BOOLEAN",
   "READ_CALL",
   "WRITE_CALL",
   "IF",
@@ -34,13 +42,7 @@ public class sym {
   "END",
   "OPAR",
   "CPAR",
-  "NUMBER",
-  "STRING",
-  "ID",
-  "OPERATOR",
-  "TYPE",
-  "FLOAT",
-  "BOOLEAN"
+  "COMMENT"
   };
 }
 

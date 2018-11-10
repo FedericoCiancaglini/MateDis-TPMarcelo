@@ -1,11 +1,5 @@
-/* --------------------------Usercode Section------------------------ */
-
 import java_cup.runtime.*;
-
 %%
-
-/* -----------------Options and Declarations Section----------------- */
-
 
 %class Lexer
 %line
@@ -41,13 +35,8 @@ Id = [A-Za-z_][A-Za-z_0-9]*
 
 Type = "int" | "float" | "string" | "boolean"
 
-%state STRING
-%state SIMPLE_CONTROL
-
-
+%state COMMENT
 %%
-/* ------------------------Lexical Rules Section---------------------- */
-
 
 <YYINITIAL> {
 
@@ -55,15 +44,15 @@ Type = "int" | "float" | "string" | "boolean"
     "write" {return new Symbol(sym.WRITE_CALL);}
     "if"    {return new Symbol(sym.IF);}
     "then" {return new Symbol(sym.THEN);}
-    "and"   {return new Symbol(sym.OPERATOR, "&");}
     "end"  {return new Symbol(sym.END);}
+    "and"   {return new Symbol(sym.OPERATOR, "&");}
     "or"    {return new Symbol(sym.OPERATOR, "|");}
     "=="    {return new Symbol(sym.OPERATOR, "=");}
     "!="    {return new Symbol(sym.OPERATOR, "!");}
     "("     {return new Symbol(sym.OPAR);}
     ")"     {return new Symbol(sym.CPAR);}
     "="     {return new Symbol(sym.EQUALS);}
-    "\""     {stringBuilder = new StringBuilder(); yybegin(STRING);}
+    "\""     {stringBuilder = new StringBuilder(); yybegin(COMMENT);}
     {Type}  {return new Symbol(sym.TYPE, yytext());}
     {Number} {return new Symbol(sym.NUMBER, Integer.parseInt(yytext()));}
     {Float}  {return new Symbol(sym.FLOAT, Float.parseFloat(yytext()));}
@@ -71,15 +60,14 @@ Type = "int" | "float" | "string" | "boolean"
     {Operator} {return new Symbol(sym.OPERATOR, yytext());}
     {Id}    {return new Symbol(sym.ID, yytext());}
     {BlankSpace} {}
-
 }
 
-<STRING>{
-    "\"" {yybegin(0); return new Symbol(sym.STRING, stringBuilder.toString());}
-    .   {stringBuilder.append(yytext());}
+<COMMENT>{
+    "*/" {yybegin(0); return new Symbol(sym.STRING, stringBuilder.toString());}
+     .   {stringBuilder.append(yytext());}
 }
 
 
 /* No token was found for the input so through an error.  Print out an
    Illegal character message with the illegal character that was found. */
-[^]                    { throw new Error("Illegal character <"+yytext()+">"); }
+[^]                    { throw new Error("Illegal character ["+yytext()+"]"); }

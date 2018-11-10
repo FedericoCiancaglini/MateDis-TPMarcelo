@@ -30,7 +30,7 @@ public class Main {
         });*/
 
         parser parser = new parser(new Scanner() {
-            Lexer lexer = new Lexer(new FileReader("/Users/fede/sandbox/matedis-TPE-master/matedis-TPE-master/src/textPrueba.txt"));
+            Lexer lexer = new Lexer(new FileReader("/Users/Florencia/projects/MateDis-TPMarcelo/src/textPrueba.txt"));
             public Symbol next_token() throws Exception {
                 Symbol s =  lexer.next_token();
                 return s;
