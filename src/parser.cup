@@ -15,7 +15,7 @@ terminal String     STRING, ID, OPERATOR, TYPE;
 terminal Integer    NUMBER;
 terminal Float      FLOAT;
 terminal Boolean    BOOLEAN;
-terminal            READ_CALL, WRITE_CALL, IF, THEN, EQUALS, END, OPAR, CPAR;
+terminal            READ_CALL, WRITE_CALL, EQUALS, OPAR, CPAR;
 terminal Comment    COMMENT;
 
 non terminal        expr_list, expr, control, assignation, write, operation, value, condition, if_statment, else_statement;

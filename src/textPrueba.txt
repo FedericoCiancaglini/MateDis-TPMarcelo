@@ -1,5 +1,15 @@
 
-/* write("sapo")
-    write("aplastado")*/
+//write("no me imprimas")
+
+/* no me
+    escribas */
+
+a = "sapo"
+
+write(a)
 
 write(10)
+
+b = true
+
+write(b)
